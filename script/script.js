@@ -411,7 +411,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: formData
+                body: JSON.stringify(formData)
             });
         };
                  
@@ -429,12 +429,15 @@ window.addEventListener('DOMContentLoaded', () => {
             }, 3000);
             
             const formData = new FormData(elem);
-
-            console.log(formData);
+            let body = {};
+    
+            formData.forEach((val, key) => {
+                body[key] = val;
+            });
           
             statusMessage.textContent = loadMessage;
 
-            postData(formData)
+            postData(body)
             .then((response) => {
                 if(response.status !== 200) { 
                 throw new Error('Status network: ' + response.status);
